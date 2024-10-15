@@ -1,6 +1,10 @@
 import streamlit as st
 import datetime
 import requests
+import pandas as pd
+import numpy as np
+import pydeck
+
 '''
 # Your Ride:
 '''
@@ -37,3 +41,13 @@ if st.button('Get Fare'):
     response = requests.get(url,params)
     fare = response.json()['fare']
     st.write(f'${round(fare,2)}')
+
+df = pd.DataFrame(
+    [[pickup_longitude, pickup_latitude], [dropoff_longitude, dropoff_latitude]],
+    columns=["lat", "lon"],
+)
+st.map(df)
+df
+view_state = pydeck.ViewState(
+    latitude=40, longitude=74, controller=True, zoom=2.4, pitch=30
+)
